@@ -1,26 +1,80 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
+import {Route, Link} from 'react-router-dom';
+import dummyStore from '../dummy-store';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = {
+    notes: [],
+    folders: []
+  };
+
+  componentDidMount() {
+    setTimeout(() => this.setState(dummyStore), 600);
+  }
+
+  renderNavRoutes() {
+    const {notes, folders} = this.state;
+    return (
+      <>
+        {['/', '/folder/:folderId'].map(path => (
+          <Route
+            exact
+            key={path}
+            path={path}
+            render={routeProps => (
+              <NoteListNav
+                folders={folders}
+                notes={notes}
+                {...routeProps}
+              />
+            )}
+          />
+        ))}
+        <Route
+          path="/note/:noteId"
+          render={routeProps => {
+            const {noteId} = route.Props.match.params;
+            const note = findNote(notes, noteId) || {};
+            const folder = findFolder(folders, note.folderId);
+            return <NotePageNav {...routeProps} folder={folder} />;
+          }}
+        />
+        <Route path="/add-folder" component={NotePageNav} />
+        <Route path="/add-note" component={NotePageNav} />
+      </>
+    );
+  }
+
+  renderMainRoutes() {
+    return (
+      <>
+        <Route
+          exact
+          path={}
+          component={}
+        />
+        <Route
+          path="/note/:noteId"
+          component={}
+        />
+      </>
+    );
+  }
+
+  render() {
+    return (
+      <div className='App'>
+        <nav className="App-nav">{this.renderNavRoutes()}</nav>
+        <header className="App-header">
+          <h1>
+            <Link to="/">Noteful</Link>
+          </h1>
+        </header>
+        <main className="App-main">{this.renderMainRoutes()}</main>
+      </div>
+    );
+  }
 }
 
 export default App;
