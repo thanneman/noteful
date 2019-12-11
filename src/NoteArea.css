@@ -1,0 +1,6 @@
+.noteArea {
+    display: inline-block;
+    width: 70%;
+    height: calc(100vh - 120px);
+    overflow: auto;
+}

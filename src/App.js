@@ -153,10 +153,29 @@ class App extends Component {
             }}
           />
           <Route 
+            path='/folder/:folderId'
+            render={(props) => {
+              return (
+                <main>
+                  <Nav 
+                    {...props}
+                    notes={this.state.notes}
+                    folders={this.state.folders}
+                  />
+                  <NoteArea 
+                    {...props}
+                    notes={this.state.notes}
+                    folders={this.state.folders}
+                  />
+                </main>
+              )
+            }}
+          />
+          <Route 
             path='/note/:noteId'
             render={(props) => {
               return (
-                <div>
+                <main>
                   <Nav
                     {...props}
                     notes={this.state.notes}
@@ -166,7 +185,7 @@ class App extends Component {
                     {...props}
                     notes={this.state.notes}
                   />
-                </div>
+                </main>
               )
             }}
           />
