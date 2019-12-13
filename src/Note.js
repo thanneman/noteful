@@ -4,7 +4,35 @@ import NotesContext from './NotesContext'
 import './Note.css';
 
 export default class Note extends Component {
+    static defaultProps = {
+        onDeleteNote: () => {},
+    }
     static contextType = NotesContext;
+
+    handleClickDelete = e => {
+        e.preventDefault()
+        const noteId = this.props.id
+    
+        fetch(`http://localhost:9090/notes/${noteId}`, {
+          method: 'DELETE',
+          headers: {
+            'content-type': 'application/json'
+          },
+        })
+        .then(res => {
+        if (!res.ok)
+            return res.json().then(e => Promise.reject(e))
+        return res.json()
+        })
+        .then(() => {
+        this.context.deleteNote(noteId)
+        // allow parent to perform extra behaviour
+        this.props.onDeleteNote(noteId)
+        })
+        .catch(error => {
+        console.error({ error })
+        })
+    }
 
     render() {
         const noteId = this.props.match.params.noteId;
@@ -25,10 +53,7 @@ export default class Note extends Component {
                             <button
                                 name="deleteNote"
                                 id="deleteNote"
-                                onClick={() => {
-                                    this.context.deleteNote(note.id);
-                                    this.props.history.push('/');
-                                }}
+                                onClick={this.handleClickDelete}
                             >
                                 Delete Note
                             </button>
