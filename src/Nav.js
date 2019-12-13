@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom'
+import NotesContext from './NotesContext'
 import './Nav.css'
 
 class Nav extends Component {
+    static contextType = NotesContext;
+
     render() {
         const noteId = this.props.match.params.noteId;
-        let selectedNote = this.props.notes.filter((note) => {
+        let selectedNote = this.context.notes.filter((note) => {
             return note.id === noteId
         })
         const folderId = this.props.match.params.folderId;
@@ -15,7 +18,7 @@ class Nav extends Component {
             (selectedNote[0] === undefined)
             ?   <nav className="nav">
                     <ul className="folderList">
-                        {this.props.folders.map(folder =>
+                        {this.context.folders.map(folder =>
                             (folderId === folder.id)
                             ?   <li className="selectedFolder" key={folder.id}>
                                     <Link to={`/folder/${folder.id}`}>{folder.name}</Link>
@@ -32,7 +35,7 @@ class Nav extends Component {
                     <ul className="folderList">
                         {selectedNote.map(note =>
                             <li className="folder" key={note.folderId}>
-                                {this.props.folders.find(folder => folder.id === selectedNote[0].folderId).name}
+                                {this.context.folders.find(folder => folder.id === selectedNote[0].folderId).name}
                             </li>
                         )}
                     </ul>

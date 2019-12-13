@@ -4,10 +4,16 @@ import Header from './Header'
 import Nav from './Nav'
 import NoteArea from './NoteArea'
 import Note from './Note'
+import NotesContext from './NotesContext'
 import './App.css'
 
 class App extends Component {
-  constructor(props) {
+  state = {
+    folders: [],
+    notes: [],
+    error: null,
+  };
+  /*constructor(props) {
     super(props);
     this.state = {
       folders: [
@@ -124,73 +130,51 @@ class App extends Component {
           "content": "Veritatis porro minima perspiciatis. Repellat veniam quo iste ut. Iusto voluptas quae quibusdam. Odit neque iusto cupiditate iste quam. Fuga itaque aut praesentium ullam saepe ut et vero.\n \rQuisquam doloremque molestiae. Enim rerum dolorem et velit itaque magnam laborum. Aut officiis porro.\n \rQuae eum eaque error. Sed itaque ipsam nam provident aut voluptate. Perferendis repudiandae sequi laudantium est est animi eum. Unde alias et doloribus est hic et. Sed distinctio incidunt maiores aut voluptatibus et omnis mollitia fugit."
         }
       ]
-    }
+      */
+    };
   };
 
-
   render() {
+    const contextValue = {
+      folders: this.state.folders,
+      notes: this.state.notes,
+    }
+
     return (
-      <div className='App'>
-        <Header />
-        <Switch>
-          <Route 
-            exact path='/'
-            render={(props) => {
-              return (
-                <main>
-                  <Nav 
-                    {...props}
-                    notes={this.state.notes}
-                    folders={this.state.folders}
-                  />
-                  <NoteArea 
-                    {...props}
-                    notes={this.state.notes}
-                    folders={this.state.folders}
-                  />
-                </main>
-              )
-            }}
-          />
-          <Route 
-            path='/folder/:folderId'
-            render={(props) => {
-              return (
-                <main>
-                  <Nav 
-                    {...props}
-                    notes={this.state.notes}
-                    folders={this.state.folders}
-                  />
-                  <NoteArea 
-                    {...props}
-                    notes={this.state.notes}
-                    folders={this.state.folders}
-                  />
-                </main>
-              )
-            }}
-          />
-          <Route 
-            path='/note/:noteId'
-            render={(props) => {
-              return (
-                <main>
-                  <Nav
-                    {...props}
-                    notes={this.state.notes}
-                    folders={this.state.folders}
-                  />
-                  <Note 
-                    {...props}
-                    notes={this.state.notes}
-                  />
-                </main>
-              )
-            }}
-          />
-        </Switch>
-      </div>
+      <NotesContext.Provider value={contextValue}>
+        <div className='App'>
+          <Header />
+          <Switch>
+            <main>
+              <Route 
+                exact path='/'
+                component={Nav}
+              />
+              <Route 
+                exact path='/'
+                component={NoteArea}
+              />
+              <Route 
+                path='/folder/:folderId'
+                component={Nav}
+              />
+              <Route
+                path='/folder/:folderId'
+                component={NoteArea}
+              >  
+              </Route>
+              <Route 
+                path='/note/:noteId'
+                component={Nav}
+              />
+              <Route 
+                path='/note/:noteId'
+                component={Note}
+              />
+            </main>
+          </Switch>
+        </div>
+      </NotesContext.Provider>
     );
   }
 }
