@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import NotesContext from './NotesContext';
 import ValidationError from './ValidationError';
 import PropTypes from 'prop-types';
+import './AddFolder.css';
 
 export default class AddFolder extends Component {
     constructor(props) {
@@ -71,7 +72,7 @@ export default class AddFolder extends Component {
                 >
                     <div className="Add-FolderInput">
                         <label htmlFor="folderName">
-                            * Folder Name
+                            * Folder Name 
                         </label>
                         <input
                             type="text"
@@ -99,7 +100,7 @@ export default class AddFolder extends Component {
                                 type="button"
                                 name="cancelAddFolder"
                                 id="cancelAddFolder"
-                                onClick={() => {this.props.history.push('//')}}
+                                onClick={() => {this.props.history.push('/')}}
                             >
                                 Cancel
                             </button>

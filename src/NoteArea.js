@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import NotesContext from './NotesContext'
-import './NoteArea.css'
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import NotesContext from './NotesContext';
+import './NoteArea.css';
 
 export default class NoteArea extends Component {
     static contextType = NotesContext;
@@ -32,7 +33,9 @@ export default class NoteArea extends Component {
                             </li>
                         )}
                     </ul>
-                    <button name="addNote" id="addNote">Add Note</button>
+                    <Link to={'/add-note'} className="addNote-btn">
+                        Add Note
+                    </Link>
                 </section>
 
             :   <section className="noteArea">
@@ -53,8 +56,22 @@ export default class NoteArea extends Component {
                             </li>
                         )}
                     </ul>
-                    <button name="addNote" id="addNote">Add Note</button>
+                    <Link to={'/add-note'} className="addNote-btn">
+                        Add Note
+                    </Link>
                 </section>
         )
     }
+}
+
+NoteArea.defaultProps = {
+    folderId: '1'
+}
+  
+NoteArea.propTypes = {
+    folderId: PropTypes.string.isRequired,
+}
+
+NotesContext.propTypes = {
+    value: PropTypes.object,
 }

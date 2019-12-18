@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { findAllByTestId } from '@testing-library/react';
 
 export default class FolderError extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            hasError: findAllByTestId
+            hasError: false
         };
     }
 

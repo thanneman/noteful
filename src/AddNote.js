@@ -4,7 +4,6 @@ import ValidationError from './ValidationError';
 import PropTypes from 'prop-types';
 
 export default class AddNote extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -22,7 +21,7 @@ export default class AddNote extends Component {
             },
         }
     }
-
+    
     static contextType = NotesContext;
 
     handleSubmit = (e) => {
@@ -30,11 +29,11 @@ export default class AddNote extends Component {
         let uniqueId = Math.floor((Math.random() * 9999999) * (Math.random() * 9999999) * (Math.random() * 9999999))
         let currentDate = new Date();
         let datetime = "Last modified: " + currentDate.getDate() + "/"
-            + (currentdate.getMonth()+1)  + "/" 
-            + currentdate.getFullYear() + " @ "  
-            + currentdate.getHours() + ":"  
-            + currentdate.getMinutes() + ":" 
-            + currentdate.getSeconds();
+            + (currentDate.getMonth()+1)  + "/" 
+            + currentDate.getFullYear() + " @ "  
+            + currentDate.getHours() + ":"  
+            + currentDate.getMinutes() + ":" 
+            + currentDate.getSeconds();
 
         const note = {
             id: uniqueId.toString(),
@@ -119,7 +118,7 @@ export default class AddNote extends Component {
                 >
                     <div>
                         <label htmlFor="NoteName">
-                            * Note Title
+                            * Note Title 
                         </label>
                         <input
                             type="text"
@@ -133,10 +132,23 @@ export default class AddNote extends Component {
                             <ValidationError message={this.validateNoteName()} />
                         )}
                     </div>
+
+                    <div>
+                        <label htmlFor="folderSelect">
+                            * Choose a Folder 
+                        </label>
+                        <select 
+                            name="folders" 
+                            id="folderSelect"   
+                            onChange={e => this.updateFolder(e)}
+                        >
+                            {folderOptions}
+                        </select>
+                    </div>
                     
                     <div>
                         <label htmlFor="NoteText">
-                            * Note Text
+                            * Note Text 
                         </label>
                         <textarea 
                             name="NoteText"
