@@ -3,7 +3,7 @@ import NotesContext from './NotesContext';
 import ValidationError from './ValidationError';
 import PropTypes from 'prop-types';
 
-class AddNote extends Component {
+export default class AddNote extends Component {
 
     constructor(props) {
         super(props);
@@ -181,5 +181,3 @@ class AddNote extends Component {
 NotesContext.propTypes = {
     value: PropTypes.object,
 }
-
-export default AddNote;

@@ -3,7 +3,7 @@ import NotesContext from './NotesContext';
 import ValidationError from './ValidationError';
 import PropTypes from 'prop-types';
 
-class AddFolder extends Component {
+export default class AddFolder extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -113,5 +113,3 @@ class AddFolder extends Component {
 NotesContext.propTypes = {
     value: PropTypes.object,
 }
-
-export default AddFolder;

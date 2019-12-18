@@ -1,8 +1,9 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import { withRouter } from 'react-router-dom'
-import NotesContext from './NotesContext'
-import './Nav.css'
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import NotesContext from './NotesContext';
+import PropTypes from 'prop-types';
+import './Nav.css';
 
 class Nav extends Component {
     static contextType = NotesContext;
@@ -28,7 +29,9 @@ class Nav extends Component {
                                 </li>
                         )}
                     </ul>
-                    <button name="addFolder" id="addFolder">Add Folder</button>
+                    <Link to={'/add-folder'} className="addFolder-btn">
+                        Add Folder
+                    </Link>
                 </nav>
 
             :   <nav className="nav">
@@ -43,6 +46,20 @@ class Nav extends Component {
                 </nav>
         )
     }
+}
+
+Nav.defaultProps = {
+    noteId: '1',
+    folderId: '1',
+}
+
+Nav.propTypes = {
+    noteId: PropTypes.string.isRequired,
+    folderId: PropTypes.string.isRequired,
+}
+
+NotesContext.Consumer.propTypes = {
+    value: PropTypes.object,
 }
 
 export default withRouter(Nav);

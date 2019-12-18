@@ -11,7 +11,7 @@ import FolderError from './FolderError';
 import PropTypes from 'prop-types';
 import './App.css';
 
-class App extends Component {
+export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -159,5 +159,3 @@ class App extends Component {
 NotesContext.Provider.propTypes = {
   value: PropTypes.object,
 }
-
-export default App;
