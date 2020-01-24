@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from 'react-router-dom'
 import Folder from "../Folder/Folder";
-//import "./Sidebar.css";
+import "./Sidebar.css";
 import NotesContext from "../NotesContext";
 
 class Sidebar extends React.Component {
@@ -20,6 +20,7 @@ class Sidebar extends React.Component {
 
     return (
       <div className="folders-list">
+        <h3>Folders</h3>
         {folders}
         <Link to='/addFolder'>
           <button 

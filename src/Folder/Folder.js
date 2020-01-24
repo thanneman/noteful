@@ -8,8 +8,8 @@ class Folder extends React.Component {
 
   render() {
     return (
-      <div className={`folder selected`}>
-        <h3
+      <div className="folder">
+        <h4
           className="folder-name"
           onClick={() => this.context.updateFolderId(this.props.folderId)}
         >
@@ -19,7 +19,7 @@ class Folder extends React.Component {
           >
             {this.props.name}
           </Link>
-        </h3>
+        </h4>
       </div>
     );
   }

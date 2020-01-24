@@ -1,3 +1,21 @@
-.error {
-    color: red;
+.form-container {
+    display:grid;
+    grid-template-columns: repeat(6, 1fr);
+}
+
+.add-folder {
+display: block;
+text-align: center;
+grid-column: 3 / 5;
+}
+
+#name {
+    margin-top: .5em;
+    font-size: 1.2em;
+    margin-bottom: .4em;
+}
+.back-button {
+    grid-column: 2;
+    height: 25px;
+    width: 100px;
 }

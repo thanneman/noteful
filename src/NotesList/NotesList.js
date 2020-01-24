@@ -30,6 +30,11 @@ class NotesList extends React.Component {
 
     return (
       <div className="notes-container">
+        <Link to='/addNote'>
+        <button className="add-note-button" type="button">
+          Add a note
+        </button>
+        </Link>
         {notes()}
         <Link to='/addNote'>
         <button className="add-note-button" type="button">

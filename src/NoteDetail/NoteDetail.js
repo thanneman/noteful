@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Note from '../Note/Note';
-//import './NoteDetail.css';
+import './NoteDetail.css';
 import NotesContext from '../NotesContext'
 
 class NoteDetail extends React.Component {
@@ -21,7 +21,7 @@ class NoteDetail extends React.Component {
                             Go Back
                         </button>
                     </Link>
-                    <h2>{folders.folder_name}</h2>
+                    <h2>Folder: {folders.folder_name}</h2>
                 </div>
                 <div className="note-details">
                     <Note 

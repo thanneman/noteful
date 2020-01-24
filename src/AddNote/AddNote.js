@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import NotesContext from '../NotesContext';
+import './AddNote.css'
 
 export default class AddNote extends Component {
     static contextType = NotesContext;
@@ -45,15 +46,15 @@ export default class AddNote extends Component {
                 Go Back
                 </button>
                 <form className="add-note" onSubmit={e => this.handleSubmit(e)}>
-                <h2>Make a Note</h2>
+                <h2>Create a New Note</h2>
                 <div className="form-group">
-                    <label htmlFor="noteName"> New Note Name: </label>
+                    <label htmlFor="noteName">Note Name:</label>
                     <br />
-                    <input type="text" name="noteName" id="noteName" required />
+                    <input type="text" className="noteName" name="noteName" id="noteName" placeholder="Note Name" required />
                     <textarea
                     className="note-textbox"
                     aria-label="note content"
-                    placeholder="Make a Note"
+                    placeholder="Water the plants"
                     name="noteContent"
                     id="noteContent"
                     />
