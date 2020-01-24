@@ -22,15 +22,18 @@ class Nav extends Component {
                         {this.context.folders.map(folder =>
                             (folderId === folder.id)
                             ?   <li className="selectedFolder" key={folder.id}>
-                                    <Link to={`/folder/${folder.id}`}>{folder.name}</Link>
+                                    <Link to={`/folder/${folder.id}`}>{folder.folder_name}</Link>
                                 </li>
                             :   <li className="folder" key={folder.id}>
-                                    <Link to={`/folder/${folder.id}`}>{folder.name}</Link>
+                                    <Link to={`/folder/${folder.id}`}>{folder.folder_name}</Link>
                                 </li>
                         )}
                     </ul>
                     <Link to={'/add-folder'} className="addFolder-btn">
-                        Add Folder
+                    <button>Add Folder</button>
+                    </Link>
+                    <Link to={'/add-note'} className="addNote-btn">
+                        <button>Add Note</button>
                     </Link>
                 </nav>
 
@@ -38,7 +41,7 @@ class Nav extends Component {
                     <ul className="folderList">
                         {selectedNote.map(note =>
                             <li className="folder" key={note.folderId}>
-                                {this.context.folders.find(folder => folder.id === selectedNote[0].folderId).name}
+                                {this.context.folders.find(folder => folder.id === selectedNote[0].folderId).folder_name}
                             </li>
                         )}
                     </ul>

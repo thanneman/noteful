@@ -1,161 +1,122 @@
-import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
-import Header from './Header';
-import Nav from './Nav';
-import NoteArea from './NoteArea';
-import Note from './Note';
-import AddFolder from './AddFolder';
-import AddNote from './AddNote';
-import NotesContext from './NotesContext';
-import FolderError from './FolderError';
-import PropTypes from 'prop-types';
-import './App.css';
+import React from "react"
+import { Route, Link } from "react-router-dom"
+import config from "./config"
+import "./App.css"
+import Home from "./Home/Home"
+import NoteDetail from "./NoteDetail/NoteDetail"
+import NotesContext from "./NotesContext"
+import AddFolder from "./AddFolder/AddFolder"
+import AddNote from "./AddNote/AddNote"
 
-export default class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      folders: [
-      ],
-      notes: [
-      ]
-    };
+
+class App extends React.Component {
+  state = {
+    notes: [],
+    folders: [],
+    folderId: null
   }
 
-  deleteNote = noteId => {
-    const newNotes = this.state.notes.filter (note => note.id !== noteId)
-    let deleteUrl = `http://localhost:9090/notes/${noteId}`;
-
-    fetch(deleteUrl, {
-      method: 'DELETE',
-      headers: {
-        'content-type': 'applicaion/json'
-      },
-    })
-    .then(res => {
-      if(!res.ok) {
-        throw new Error(res.status)
-      }
-      return res.json()
-    })
-    .catch(error => this.setState({ error }))
-
-    this.setState({
-      notes: newNotes
-    })
+	fetchNotes = () => {
+		fetch(`${config.API_ENDPOINT}/notes`)
+      .then(res => res.json())
+			.then(resJSON => this.setState({ notes: resJSON }))
+			.catch(err => {
+				console.log(err)
+			})
   }
 
+  fetchFolders = () => {
+		fetch(`${config.API_ENDPOINT}/folders`)
+      .then(res => res.json())
+      .then(resJSON => this.setState({ folders: resJSON }))
+			.catch(err => {
+				console.log(err)
+			})
+	}
   componentDidMount() {
-    let foldersUrl = 'http://localhost:9090/folders';
-    let notesUrl = 'http://localhost:9090/notes';
+    this.fetchFolders()
+    this.fetchNotes()
+  }
 
-    Promise.all([
-      fetch(foldersUrl),
-      fetch(notesUrl)
-    ])
-    .then(([foldersRes, notesRes]) => {
-      if (!foldersRes.ok)
-        return foldersRes.json().then(e => Promise.reject(e));
-      if (!notesRes.ok) 
-        return notesRes.json().then(e => Promise.reject(e));
-
-      return Promise.all([foldersRes.json(), notesRes.json()]);
-    })
-    .then(([folders, notes]) => {
-      this.setState({folders, notes});
-    })
-    .catch(error => {
-      console.log({error});
+  updateFolderId = id => {
+    this.setState({
+      folderId: id
     })
   }
 
-  updateLists = () => {
-    let foldersUrl = 'http://localhost:9090/folders';
-    let notesUrl = 'http://localhost:9090/notes';
+  handleDelete = id => {
+    this.setState({
+      notes: this.state.notes.filter(note => note.id !== id)
+    })
+    fetch(`${config.API_ENDPOINT}/notes/${id}`, {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json"
+      }
+    })
+  }
 
-    Promise.all([
-      fetch(foldersUrl),
-      fetch(notesUrl)
-    ])
-    .then(([foldersRes, notesRes]) => {
-      if (!foldersRes.ok)
-        return foldersRes.json().then(e => Promise.reject(e));
-      if (!notesRes.ok) 
-        return notesRes.json().then(e => Promise.reject(e));
+  addFolder = (folder, id) => {
+ 
+    fetch(`${config.API_ENDPOINT}/folders`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ folder_name: folder })
+    })
+    .then(this.fetchFolders)
+      .catch(err => {
+        console.log(err)
+      })
+  }
 
-      return Promise.all([foldersRes.json(), notesRes.json()]);
+  addNote = note => {
+    fetch(`${config.API_ENDPOINT}/notes`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(note)
     })
-    .then(([folders, notes]) => {
-      this.setState({folders, notes});
-    })
-    .catch(error => {
-      console.log({error});
-    })
+    .then(this.fetchNotes)
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   render() {
-    const contextValue = {
-      folders: this.state.folders,
+    const value = {
       notes: this.state.notes,
-      deleteNote: this.deleteNote,
-      updateLists: this.updateLists,
+      folders: this.state.folders,
+      updateFolderId: this.updateFolderId,
+      folderId: this.state.folderId,
+      handleDelete: this.handleDelete,
+      addFolder: this.addFolder,
+      addNote: this.addNote
     }
 
     return (
-      <NotesContext.Provider value={contextValue}>
-        <div className='App'>
-          <Header />
-            <main>
-              <FolderError>
-              <Route 
-                exact path='/'
-                component={Nav}
-              />
-              <Route 
-                exact path='/'
-                component={NoteArea}
-              />
-              <Route 
-                path='/folder/:folderId'
-                component={Nav}
-              />
-              <Route
-                path='/folder/:folderId'
-                component={NoteArea}
-              >  
-              </Route>
-              <Route 
-                path='/note/:noteId'
-                component={Nav}
-              />
-              <Route 
-                path='/note/:noteId'
-                component={Note}
-              />
-              <Route
-                path='/add-folder'
-                component={Nav}
-              />
-              <Route
-                path='/add-folder'
-                component={AddFolder}
-              />
-              <Route
-                path='/add-note'
-                component={Nav}
-              />
-              <Route
-                path='/add-note'
-                component={AddNote}
-              />
-              </FolderError>
-            </main>
+      <NotesContext.Provider value={value}>
+        <div className="App">
+          <h1
+            className="main-header"
+            onClick={() => this.setState({ folderId: null })}
+          >
+            <Link to="/">
+              Noteful
+            </Link>
+          </h1>
+
+          <Route exact path="/" component={Home} />
+          <Route path="/folder/:folderId" component={Home} />
+          <Route path="/addFolder" component={AddFolder} />
+          <Route path="/addNote" component={AddNote} />
+          <Route path="/note/:noteId" component={NoteDetail} />
         </div>
       </NotesContext.Provider>
-    );
+    )
   }
 }
 
-NotesContext.Provider.propTypes = {
-  value: PropTypes.object,
-}
+export default App
