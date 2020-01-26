@@ -23,7 +23,7 @@ class NotesList extends React.Component {
         })
       } else {
         return (
-          <h1>No notes!</h1>
+          <h1>No notes :)</h1>
         )
       }
     }
