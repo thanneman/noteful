@@ -9,7 +9,7 @@ class Note extends React.Component {
 
     render() {
         const d = new Date(this.props.modified);
-        const day = d.getDay();
+        const day = d.getDate();
         const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         const month = months[d.getMonth()];
         const year = d.getFullYear();
