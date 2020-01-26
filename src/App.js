@@ -17,16 +17,18 @@ class App extends React.Component {
   }
 
 	fetchNotes = () => {
-		fetch(`${config.API_ENDPOINT}/notes`)
+    console.log(`${config.API_ENDPOINT}/api/notes`)
+		fetch(`${config.API_ENDPOINT}/api/notes`)
       .then(res => res.json())
 			.then(resJSON => this.setState({ notes: resJSON }))
 			.catch(err => {
 				console.log(err)
 			})
   }
+  
 
   fetchFolders = () => {
-		fetch(`${config.API_ENDPOINT}/folders`)
+		fetch(`${config.API_ENDPOINT}/api/folders`)
       .then(res => res.json())
       .then(resJSON => this.setState({ folders: resJSON }))
 			.catch(err => {
@@ -48,7 +50,7 @@ class App extends React.Component {
     this.setState({
       notes: this.state.notes.filter(note => note.id !== id)
     })
-    fetch(`${config.API_ENDPOINT}/notes/${id}`, {
+    fetch(`${config.API_ENDPOINT}/api/notes/${id}`, {
       method: "DELETE",
       headers: {
         "content-type": "application/json"
@@ -58,7 +60,7 @@ class App extends React.Component {
 
   addFolder = (folder, id) => {
  
-    fetch(`${config.API_ENDPOINT}/folders`, {
+    fetch(`${config.API_ENDPOINT}/api/folders`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -72,7 +74,7 @@ class App extends React.Component {
   }
 
   addNote = note => {
-    fetch(`${config.API_ENDPOINT}/notes`, {
+    fetch(`${config.API_ENDPOINT}/api/notes`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
